@@ -13,7 +13,17 @@ import Footer from './components/Footer'
 import MedimedHome from './pages/MedimedHome'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import FindHome from './pages/FindHome'
+import Protectedroute from './pages/Protectedroute'
+import Doctorsearch from './pages/Doctorsearch'
+import RateHospital from './pages/RateHospital'
+import RateDoctor from './pages/RateDoctor'
+import Doctorreview from './pages/Doctorreview'
+import HospitalReview from './pages/Hospitalreview'
+import SavedDoctors from './pages/SavedDoctors'
+import Myratings from './pages/Myratings'
+import UpdateHosRating from './pages/Edit/EdithosRating'
+import UpdateDocRating from './pages/Edit/EditdocRating'
 const App = () => {
   return (
     <div className='mx-4 sm:mx-[10%]'>
@@ -22,6 +32,56 @@ const App = () => {
 
       <Routes>
       <Route path='/' element={<MedimedHome />} />
+      <Route path='/find-doc' element={
+          <Protectedroute>
+            <FindHome />
+          </Protectedroute>
+        } />
+        <Route path='/search' element={
+          <Protectedroute>
+            <Doctorsearch/>
+          </Protectedroute>
+        } />
+          <Route path='/myratings' element={
+          <Protectedroute>
+            <Myratings/>
+          </Protectedroute>
+        } />
+         <Route path='/saved-doctors' element={
+          <Protectedroute>
+            <SavedDoctors/>
+          </Protectedroute>
+        } />
+        <Route path='/edit-hospitalrating/:id/:reviewId' element={
+          <Protectedroute>
+            <UpdateHosRating/>
+          </Protectedroute>
+        } />
+         <Route path='/edit-doctorrating/:id/:reviewId' element={
+          <Protectedroute>
+            <UpdateDocRating/>
+          </Protectedroute>
+        } />
+           <Route path='/:id/hospitalreview' element={
+          <Protectedroute>
+            <HospitalReview/>
+          </Protectedroute>
+        } />
+        <Route path='/:id/doctorreview' element={
+          <Protectedroute>
+            <Doctorreview/>
+          </Protectedroute>
+        } />
+        <Route path='/:id/ratedoctor' element={
+          <Protectedroute>
+            <RateDoctor/>
+          </Protectedroute>
+        } />
+        <Route path='/:id/ratehospital' element={
+          <Protectedroute>
+            <RateHospital/>
+          </Protectedroute>
+        } />
       <Route path='/appointment' element={<Home />} />
         <Route path='/doctors' element={<Doctors />} />
         <Route path='/doctors/:speciality' element={<Doctors />} />
