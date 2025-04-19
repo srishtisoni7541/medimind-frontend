@@ -178,25 +178,9 @@ function SavedDoctors() {
     return user && (
        <>
        
-                <header className=" w-fit mx-auto fixed left-[50%] max-sm:hidden translate-x-[-50%] top-0 z-[999999999]">
-                    <div className="max-w-6xl mx-auto px-4 py-4">
-                        <div className="flex items-center justify-center ">
-                            <button
-                                className={`py-4 px-6 focus:outline-none  transition-colors duration-200 ${true === true
-                                    ? 'text-gray-500 '
-                                    : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                                    }`}
-                            >
-                                <div className="flex items-center gap-2">
-                                    <UserRound className="w-5 h-5" />
-                                    <span>Saved Doctors</span>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </header>
+              
         <div className=''>
-            <div className="min-h-screen bg-gray-100 ">
+            <div className="min-h-screen ">
 
                 <main className="max-w-6xl mx-auto px-4 py-8">
                     <div className="space-y-6">

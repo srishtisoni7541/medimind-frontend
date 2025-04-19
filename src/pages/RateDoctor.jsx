@@ -4,7 +4,7 @@ import { fetchSingleDoctor, clearDocError, clearDocMessage, addDoctorReview } fr
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-const RatingBox = ({ title, titleKo, value, onChange, icon, description, descriptionKo, error }) => {
+const RatingBox = ({ title, titleKo, value, onChange, icon, description, error }) => {
   const getBackgroundColor = (rating, currentValue) => {
     if (rating === 1) return currentValue >= 1 ? 'bg-red-500' : 'bg-gray-200';
     if (rating === 2) return currentValue >= 2 ? 'bg-orange-500' : 'bg-gray-200';
@@ -15,11 +15,11 @@ const RatingBox = ({ title, titleKo, value, onChange, icon, description, descrip
 
   const getRatingText = (value) => {
     if (value === 0) return '';
-    if (value === 1) return 'Poor / 나쁨';
-    if (value === 2) return 'Fair / 부족';
-    if (value === 3) return 'Good / 보통';
-    if (value === 4) return 'Very Good / 좋음';
-    return 'Excellent / 훌륭함';
+    if (value === 1) return 'Poor';
+    if (value === 2) return 'Fair';
+    if (value === 3) return 'Good';
+    if (value === 4) return 'Very Good';
+    return 'Excellent';
   };
 
   return (
@@ -31,10 +31,9 @@ const RatingBox = ({ title, titleKo, value, onChange, icon, description, descrip
             <h3 className="font-medium text-gray-800 text-md">{title}</h3>
             <h4 className="text-gray-600 text-md">{titleKo}</h4>
           </div>
-          {(description || descriptionKo) && (
+          {(description) && (
             <div className="text-gray-500 text-xs">
               <p>{description}</p>
-              <p>{descriptionKo}</p>
             </div>
           )}
         </div>
@@ -61,7 +60,7 @@ const RatingBox = ({ title, titleKo, value, onChange, icon, description, descrip
   );
 };
 
-const HashtagButton = ({ tag, tagKo, selected, onClick, disabled }) => (
+const HashtagButton = ({ tag, selected, onClick, disabled }) => (
   <button
     type="button"
     onClick={onClick}
@@ -75,7 +74,6 @@ const HashtagButton = ({ tag, tagKo, selected, onClick, disabled }) => (
   >
     <div className="flex flex-col items-center">
       <span>{tag}</span>
-      <span className="text-[10px]">{tagKo}</span>
     </div>
   </button>
 );
@@ -133,19 +131,19 @@ function RateDoctor() {
   const { error, doctor, message } = useSelector(state => state.Doctor)
   const doctorId = useParams().id;
   const hashtags = [
-    { en: "#KindAndCaring", ko: "#친절함" },
-    { en: "#GreatListener", ko: "#경청" },
-    { en: "#ExplainsClearly", ko: "#명확한설명" },
-    { en: "#Patient", ko: "#인내심" },
-    { en: "#Understanding", ko: "#이해심" },
-    { en: "#Knowledgeable", ko: "#전문성" },
-    { en: "#AccurateDiagnosis", ko: "#정확한진단" },
-    { en: "#RushedAppointments", ko: "#빠른진료" },
-    { en: "#ToughButEffective", ko: "#까다롭지만효과적" },
-    { en: "#CouldBeMoreAttentive", ko: "#더집중필요" },
-    { en: "#ConfusingExplanation", ko: "#혼란스러운설명" },
-    { en: "#Late", ko: "#지각" },
-    { en: "#PoorCommunication", ko: "#소통부족" }
+    { en: "#KindAndCaring" },
+    { en: "#GreatListener" },
+    { en: "#ExplainsClearly" },
+    { en: "#Patient" },
+    { en: "#Understanding" },
+    { en: "#Knowledgeable" },
+    { en: "#AccurateDiagnosis" },
+    { en: "#RushedAppointments" },
+    { en: "#ToughButEffective" },
+    { en: "#CouldBeMoreAttentive" },
+    { en: "#ConfusingExplanation" },
+    { en: "#Late" },
+    { en: "#PoorCommunication" }
   ];
 
 
@@ -216,9 +214,7 @@ function RateDoctor() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Rate Your Doctor</h1>
-          <h2 className="text-2xl font-bold text-gray-700 mb-2">의사 평가하기</h2>
           <p className="text-gray-600">Your feedback helps others make informed decisions</p>
-          <p className="text-gray-600">귀하의 피드백은 다른 사람들의 현명한 결정에 도움이 됩니다</p>
         </div>
 
         <DoctorInfo doctor={doctor} />
@@ -226,7 +222,6 @@ function RateDoctor() {
         <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl mx-auto">
           <RatingBox
             title="Overall Rating"
-            titleKo="전체 평가"
             value={formData.ratings.overall}
             onChange={(value) => setFormData(prev => ({
               ...prev,
@@ -234,13 +229,11 @@ function RateDoctor() {
             }))}
             icon={<Star className="w-4 h-4" />}
             description="How would you rate your overall experience?"
-            descriptionKo="전반적인 경험은 어떠셨나요?"
             error={isSubmitted ? errors['ratings.overall'] : null}
           />
 
           <RatingBox
             title="Medical Accuracy"
-            titleKo="의료 정확성"
             value={formData.ratings.medicalAccuracy}
             onChange={(value) => setFormData(prev => ({
               ...prev,
@@ -252,7 +245,6 @@ function RateDoctor() {
 
           <RatingBox
             title="Clarity in Explanation"
-            titleKo="설명의 명확성"
             value={formData.ratings.clarityInExplanation}
             onChange={(value) => setFormData(prev => ({
               ...prev,
@@ -263,7 +255,6 @@ function RateDoctor() {
           />
           <RatingBox
             title="Experience & Expertise"
-            titleKo="경험 및 전문성"
             value={formData.ratings.experienceAndExpertise}
             onChange={(value) => setFormData(prev => ({
               ...prev,
@@ -274,7 +265,6 @@ function RateDoctor() {
           />
           <RatingBox
             title="Communication Skills"
-            titleKo="의사소통 능력"
             value={formData.ratings.communicationSkills}
             onChange={(value) => setFormData(prev => ({
               ...prev,
@@ -286,7 +276,6 @@ function RateDoctor() {
 
           <RatingBox
             title="Punctuality"
-            titleKo="시간 엄수"
             value={formData.ratings.punctuality}
             onChange={(value) => setFormData(prev => ({
               ...prev,
@@ -303,9 +292,7 @@ function RateDoctor() {
               </div>
               <div>
                 <h3 className="font-medium text-gray-800 text-sm">Add Tags (Select up to 4)</h3>
-                <h4 className="font-medium text-gray-600 text-xs">태그 추가 (최대 4개)</h4>
                 <p className="text-xs text-gray-500">{4 - formData.tags.length} tags remaining</p>
-                <p className="text-xs text-gray-500">{4 - formData.tags.length}개 선택 가능</p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -313,7 +300,6 @@ function RateDoctor() {
                 <HashtagButton
                   key={tag.en}
                   tag={tag.en}
-                  tagKo={tag.ko}
                   selected={formData.tags.includes(tag.en)}
                   onClick={() => toggleTag(tag.en)}
                   disabled={!formData.tags.includes(tag.en) && formData.tags.length >= 4}

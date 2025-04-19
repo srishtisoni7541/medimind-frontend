@@ -321,7 +321,7 @@ function HospitalReview() {
     { 
       icon: Users, 
       label: "Staff Friendliness", 
-      labelKo: "직원 친절도", 
+      
       value: averageRatings.staffFriendliness || 0, 
       color: "text-indigo-500", 
       bgColor: "bg-indigo-100",
@@ -330,7 +330,7 @@ function HospitalReview() {
     { 
       icon: Sparkles, 
       label: "Facility Cleanliness", 
-      labelKo: "병원 위생 상태", 
+       
       value: averageRatings.facilityClean || 0, 
       color: "text-green-500", 
       bgColor: "bg-green-100",
@@ -339,7 +339,7 @@ function HospitalReview() {
     { 
       icon: Clock, 
       label: "Waiting Time", 
-      labelKo: "대기 시간", 
+      
       value: averageRatings.waitingTime || 0, 
       color: "text-amber-500", 
       bgColor: "bg-amber-100",
@@ -348,7 +348,7 @@ function HospitalReview() {
     { 
       icon: Armchair, 
       label: "Accessibility", 
-      labelKo: "접근성 – 주차 및 교통", 
+      
       value: averageRatings.accessibility || 0, 
       color: "text-teal-500", 
       bgColor: "bg-teal-100",
@@ -357,7 +357,7 @@ function HospitalReview() {
     ...(averageRatings.appointmentEase > 0 ? [{
       icon: Calendar, 
       label: "Appointment Ease", 
-      labelKo: "진료 예약 편의성", 
+       
       value: averageRatings.appointmentEase, 
       color: "text-blue-500", 
       bgColor: "bg-blue-100",
@@ -366,7 +366,7 @@ function HospitalReview() {
     ...(averageRatings.emergencyResponse > 0 ? [{
       icon: Ambulance, 
       label: "Emergency Response", 
-      labelKo: "응급 대응 능력", 
+       
       value: averageRatings.emergencyResponse, 
       color: "text-red-500", 
       bgColor: "bg-red-100",
@@ -375,7 +375,7 @@ function HospitalReview() {
     { 
       icon: Star, 
       label: "Overall Rating", 
-      labelKo: "전체 평가", 
+      
       value: averageRatings.overall || 0, 
       color: "text-yellow-500", 
       bgColor: "bg-yellow-100",

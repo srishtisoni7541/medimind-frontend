@@ -16,7 +16,7 @@ const Tooltip = ({ text }) => (
   </div>
 );
 
-const RatingBox = ({ title, titleKo, value, onChange, icon, description, tooltipText, error }) => {
+const RatingBox = ({ title,  value, onChange, icon, description, tooltipText, error }) => {
   const getBackgroundColor = (rating, currentValue) => {
     if (rating === 1) return currentValue >= 1 ? 'bg-red-500' : 'bg-gray-200';
     if (rating === 2) return currentValue >= 2 ? 'bg-orange-500' : 'bg-gray-200';
@@ -27,11 +27,11 @@ const RatingBox = ({ title, titleKo, value, onChange, icon, description, tooltip
 
   const getRatingText = (value) => {
     if (value === 0) return '';
-    if (value === 1) return 'Poor / 나쁨';
-    if (value === 2) return 'Fair / 부족';
-    if (value === 3) return 'Good / 보통';
-    if (value === 4) return 'Very Good / 좋음';
-    return 'Excellent / 훌륭함';
+    if (value === 1) return 'Poor';
+    if (value === 2) return 'Fair';
+    if (value === 3) return 'Good';
+    if (value === 4) return 'Very Good';
+    return 'Excellent';
   };
 
   return (
@@ -42,7 +42,6 @@ const RatingBox = ({ title, titleKo, value, onChange, icon, description, tooltip
           <div className="flex items-center gap-2">
             <div className="flex flex-col">
               <h3 className="font-medium text-gray-800 text-md">{title}</h3>
-              <h4 className="text-gray-600 text-sm">{titleKo}</h4>
             </div>
             {tooltipText && <Tooltip text={tooltipText} />}
           </div>
@@ -72,7 +71,7 @@ const RatingBox = ({ title, titleKo, value, onChange, icon, description, tooltip
 };
 
 const HospitalInfo = ({ data }) => (
-  <div className="bg-white rounded-xl p-6 shadow-md mb-8 max-w-2xl mx-auto">
+  <div className="bg-white border rounded-xl p-6 shadow-md mb-8 max-w-2xl mx-auto">
     <div className="flex items-start gap-6">
       <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
         <Building2 className="w-12 h-12 text-blue-500" />
@@ -201,9 +200,7 @@ function RateHospital() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Rate Your Hospital</h1>
-          <h2 className="text-2xl font-bold text-gray-700 mb-2">병원 평가하기</h2>
           <p className="text-gray-600">Your feedback helps improve healthcare services</p>
-          <p className="text-gray-600">귀하의 피드백은 의료 서비스 개선에 도움이 됩니다</p>
         </div>
 
         <HospitalInfo data={hospital} />
@@ -212,62 +209,58 @@ function RateHospital() {
           {/* 1. Staff Friendliness */}
           <RatingBox
             title="Staff Friendliness"
-            titleKo="직원 친절도"
             value={formData.ratings.staffFriendliness}
             onChange={(value) => setFormData(prev => ({
               ...prev,
               ratings: { ...prev.ratings, staffFriendliness: value }
             }))}
             icon={<Users className="w-4 h-4" />}
-            tooltipText="How was the attitude and communication of hospital staff (doctors, nurses, reception, etc.)? / 병원 직원(의사, 간호사, 데스크 등)의 태도와 응대는 어땠나요?"
+            tooltipText="How was the attitude and communication of hospital staff (doctors, nurses, reception, etc.)?"
             error={isSubmitted ? errors['ratings.staffFriendliness'] : null}
           />
 
           {/* 2. Facility Cleanliness */}
           <RatingBox
             title="Facility Cleanliness"
-            titleKo="병원 위생 상태"
             value={formData.ratings.facilityClean}
             onChange={(value) => setFormData(prev => ({
               ...prev,
               ratings: { ...prev.ratings, facilityClean: value }
             }))}
             icon={<Sparkles className="w-4 h-4" />}
-            tooltipText="Was the hospital environment (restrooms, waiting area, treatment rooms) clean and hygienic? / 병원 내부와 화장실, 진료실 등의 위생 상태는 어땠나요?"
+            tooltipText="Was the hospital environment (restrooms, waiting area, treatment rooms) clean and hygienic? "
             error={isSubmitted ? errors['ratings.facilityClean'] : null}
           />
 
           {/* 3. Waiting Time */}
           <RatingBox
             title="Waiting Time"
-            titleKo="대기 시간"
             value={formData.ratings.waitingTime}
             onChange={(value) => setFormData(prev => ({
               ...prev,
               ratings: { ...prev.ratings, waitingTime: value }
             }))}
             icon={<Clock className="w-4 h-4" />}
-            tooltipText="Was the waiting time from check-in to actual treatment reasonable? / 접수부터 진료까지 소요된 대기 시간이 적절했나요?"
+            tooltipText="Was the waiting time from check-in to actual treatment reasonable? "
             error={isSubmitted ? errors['ratings.waitingTime'] : null}
           />
 
           {/* 4. Accessibility */}
           <RatingBox
             title="Accessibility"
-            titleKo="접근성 – 주차 및 교통"
             value={formData.ratings.accessibility}
             onChange={(value) => setFormData(prev => ({
               ...prev,
               ratings: { ...prev.ratings, accessibility: value }
             }))}
             icon={<MapPin className="w-4 h-4" />}
-            tooltipText="Was the hospital easy to access via public transportation or car? Was parking convenient? / 병원까지 이동이나 주차가 편리했나요? (대중교통, 주차시설 등 포함)"
+            tooltipText="Was the hospital easy to access via public transportation or car? Was parking convenient? "
             error={isSubmitted ? errors['ratings.accessibility'] : null}
           />
 
           {/* 5. Appointment Scheduling Ease - Conditional */}
           <CheckboxToggle
-            label="Did you make an appointment before visiting? / 병원 예약을 하고 방문하셨나요?"
+            label="Did you make an appointment before visiting? "
             checked={formData.madeAppointment}
             onChange={(e) => setFormData(prev => ({
               ...prev,
@@ -278,21 +271,20 @@ function RateHospital() {
           {formData.madeAppointment && (
             <RatingBox
               title="Appointment Scheduling Ease"
-              titleKo="진료 예약 편의성"
               value={formData.ratings.appointmentEase}
               onChange={(value) => setFormData(prev => ({
                 ...prev,
                 ratings: { ...prev.ratings, appointmentEase: value }
               }))}
               icon={<Calendar className="w-4 h-4" />}
-              tooltipText="Was the process of booking an appointment smooth and convenient? / 예약 과정이 간편하고 원활했나요? (전화, 모바일 등)"
+              tooltipText="Was the process of booking an appointment smooth and convenient? "
               error={isSubmitted ? errors['ratings.appointmentEase'] : null}
             />
           )}
 
           {/* 6. Emergency Response Efficiency - Conditional */}
           <CheckboxToggle
-            label="Did you use the emergency room? / 응급실을 이용하셨나요?"
+            label="Did you use the emergency room?"
             checked={formData.usedEmergency}
             onChange={(e) => setFormData(prev => ({
               ...prev,
@@ -303,7 +295,6 @@ function RateHospital() {
           {formData.usedEmergency && (
             <RatingBox
               title="Emergency Response Efficiency"
-              titleKo="응급 대응 능력"
               value={formData.ratings.emergencyResponse}
               onChange={(value) => setFormData(prev => ({
                 ...prev,
@@ -318,14 +309,13 @@ function RateHospital() {
           {/* 7. Overall Rating */}
           <RatingBox
             title="Overall Rating"
-            titleKo="전체 평가"
             value={formData.ratings.overall}
             onChange={(value) => setFormData(prev => ({
               ...prev,
               ratings: { ...prev.ratings, overall: value }
             }))}
             icon={<Star className="w-4 h-4" />}
-            tooltipText="How would you rate your overall experience? / 전반적인 경험은 어떠셨나요?"
+            tooltipText="How would you rate your overall experience?"
             error={isSubmitted ? errors['ratings.overall'] : null}
           />
 
@@ -340,7 +330,7 @@ function RateHospital() {
                   id="comment"
                   rows={4}
                   className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Share your experience... / 귀하의 경험을 공유해주세요..."
+                  placeholder="Share your experience... "
                   value={formData.comment}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,

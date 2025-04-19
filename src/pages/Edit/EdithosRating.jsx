@@ -236,7 +236,7 @@ function EdithosRating() {
 
   return hospital && (
    <>
-   <div className="min-h-screen  bg-white py-8 px-4">
+   <div className="min-h-screen pt-[18vh] bg-white py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Update Your Hospital Rating</h1>

@@ -187,8 +187,16 @@ const App = () => {
         <Route path="/medication-search" element={<HomeAimedi />} />
         <Route path="/medication/:name" element={<MedicationDetailPage />} />
         <Route path="/appointment" element={<Home />} />
-        <Route path="/doctors" element={<Doctors />} />
-        <Route path="/doctors/:speciality" element={<Doctors />} />
+        <Route path="/doctors" element={
+          <Protectedroute>
+            <Doctors/>
+          </Protectedroute>
+        } />
+        <Route path="/doctors/:speciality" element={
+          <Protectedroute>
+            <Doctors/>
+          </Protectedroute>
+        } />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
