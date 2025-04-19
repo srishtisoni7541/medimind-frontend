@@ -333,7 +333,7 @@ function Myratings() {
   return user && (
     <>
     <div className='bg-gray-100 pt-[15vh] md:px-[10vh] '>
-      <div className="min-h-screen overflow-hidden bg-gray-100 relative pt-[18vh] border-gray-400 rounded-lg border">
+      <div className="min-h-screen overflow-hidden bg-gray-100 relative  border-gray-400 rounded-lg border">
         <nav className="bg-white w-full shadow-sm absolute left-[50%] translate-x-[-50%]  top-0 z-10">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex justify-center space-x-8">

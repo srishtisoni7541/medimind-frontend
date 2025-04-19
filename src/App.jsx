@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Doctors from "./pages/Doctors";
 import Login from "./pages/Login";
@@ -24,6 +24,9 @@ import SavedDoctors from "./pages/SavedDoctors";
 import Myratings from "./pages/Myratings";
 import UpdateHosRating from "./pages/Edit/EdithosRating";
 import UpdateDocRating from "./pages/Edit/EditdocRating";
+import Header from './components/Header';
+import HealthForm from './components/HealthForm';
+import Dashboard from './components/Dashboard';
 
 import { CheckerProvider } from "./context/CheckerContext";
 import NavTabs from "./components/NavTabs";
@@ -67,10 +70,37 @@ const SymptomChecker = () => {
 };
 
 const App = () => {
+  const [userData, setUserData] = useState(null);
+  const [mealPlan, setMealPlan] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  // Function to handle API loading states globally
+  const handleApiRequest = async (apiCall) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = await apiCall();
+      setIsLoading(false);
+      return result;
+    } catch (err) {
+      setError(err.message || 'An error occurred with the API request');
+      setIsLoading(false);
+      throw err;
+    }
+  };
+  
   return (
     <div className="mx-4 sm:mx-[10%]">
       <ToastContainer />
       <Navbar />
+      
+      {error && (
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-auto my-4 max-w-4xl">
+          <p className="font-bold">Error</p>
+          <p>{error}</p>
+        </div>
+      )}
 
       <Routes>
         <Route path="/" element={<MedimedHome />} />
@@ -173,6 +203,43 @@ const App = () => {
               <SymptomChecker />
             </CheckerProvider>
           }
+        />
+        
+        {/* New health plan routes */}
+        <Route 
+          path="/health-plan" 
+          element={
+            userData ? (
+              <Navigate to="/health-dashboard" />
+            ) : (
+              <div className="container mx-auto px-4 py-8">
+                <HealthForm 
+                  setUserData={setUserData} 
+                  setMealPlan={setMealPlan} 
+                  handleApiRequest={handleApiRequest}
+                  isLoading={isLoading}
+                />
+              </div>
+            )
+          } 
+        />
+        <Route 
+          path="/health-dashboard" 
+          element={
+            userData ? (
+              <div className="container mx-auto px-4 py-8">
+                <Dashboard 
+                  userData={userData} 
+                  mealPlan={mealPlan}
+                  setMealPlan={setMealPlan}
+                  handleApiRequest={handleApiRequest}
+                  isLoading={isLoading}
+                />
+              </div>
+            ) : (
+              <Navigate to="/health-plan" />
+            )
+          } 
         />
       </Routes>
 

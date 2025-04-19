@@ -196,7 +196,7 @@ function SavedDoctors() {
                     </div>
                 </header>
         <div className=''>
-            <div className="min-h-screen bg-gray-100 pt-[18vh]">
+            <div className="min-h-screen bg-gray-100 ">
 
                 <main className="max-w-6xl mx-auto px-4 py-8">
                     <div className="space-y-6">
