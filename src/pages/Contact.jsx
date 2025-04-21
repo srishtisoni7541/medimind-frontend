@@ -25,7 +25,7 @@ const Contact = () => {
   };
   
   return (
-    <div className="bg-white min-h-screen mb-20">
+    <div className="bg-white pt-[10vh] min-h-screen mb-20">
       <div>
         <h1 className='text-center text-lg font-semibold mb-12 mt-12'>Contact Us</h1>
       </div>
@@ -76,13 +76,13 @@ const Contact = () => {
       
       {/* Main Contact Section */}
       <div className="">
-      <div className="bg-white ">
+      <div className="bg-white">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Right Side - Image */}
           <div className="w-full lg:w-1/2 relative">
             <div className="relative h-64 sm:h-80 md:h-96 lg:h-full max-h-[500px]">
               <img 
-                src={""}
+                src={"https://plus.unsplash.com/premium_photo-1681843126728-04eab730febe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
                 alt="Healthcare professionals" 
                 className="w-full h-full object-cover rounded-lg"
               />
