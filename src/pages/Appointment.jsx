@@ -132,7 +132,7 @@ const Appointment = () => {
   useEffect(() => {
     fetchDocInfo();
   }, [doctors, docId]);
-
+  
   useEffect(() => {
     if (docInfo) {
       getAvailableSlots();
@@ -163,7 +163,7 @@ const Appointment = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
+    <div className="max-w-6xl mx-auto px-4 py-6 ">
       {/* Breadcrumbs */}
       <div className="flex items-center text-sm mb-6 text-gray-500">
         <span className="hover:text-blue-600 cursor-pointer" onClick={() => navigate('/')}>Home</span>

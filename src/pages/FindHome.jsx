@@ -126,7 +126,7 @@ const FinHome = () => {
     };
     
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen  bg-gray-50">
             <section
                 className="relative flex flex-col items-center justify-center h-screen text-center bg-cover bg-center px-4 font-sans"
                 style={

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { searchHospitals, clearHosError, clearHospitals } from '../store/actions/hospitalaction'
-import { searchDoctors, clearDoctors } from '../store/actions/doctoraction'
+import { searchHospitals, clearHosError, clearHospitals } from '../store/actions/hospitalaction';
+import { searchDoctors, clearDoctors } from '../store/actions/doctoraction';
 import { useSnackbar } from 'notistack';
+import VoiceControl from '../components/VoiceFunc';
 
 function Doctorsearch() {
   const { enqueueSnackbar } = useSnackbar();
@@ -18,6 +19,8 @@ function Doctorsearch() {
   const [searchType, setSearchType] = useState('hospital');
   const [showResults, setShowResults] = useState(false);
   const [showDocResults, setShowDocResults] = useState(false);
+  const [isVoiceSearching, setIsVoiceSearching] = useState(false);
+  const recognitionRef = useRef(null);
   
   // Parse query parameters on component mount
   useEffect(() => {
@@ -144,6 +147,54 @@ function Doctorsearch() {
     }
   };
 
+  // Start voice search functionality
+  const startVoiceSearch = () => {
+    if (!recognitionRef.current) {
+      if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = false;
+        recognitionRef.current.interimResults = false;
+        recognitionRef.current.lang = 'en-US';
+        
+        recognitionRef.current.onstart = () => {
+          setIsVoiceSearching(true);
+          enqueueSnackbar("Listening for search...", { variant: "info" });
+        };
+        
+        recognitionRef.current.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          setSearchTerm(transcript);
+          
+          // Update URL with the new search term
+          const queryParams = new URLSearchParams();
+          if (searchType === 'doctor') {
+            queryParams.set('doctorName', transcript);
+          } else {
+            queryParams.set('hospitalName', transcript);
+          }
+          navigate(`?${queryParams.toString()}`);
+          
+          enqueueSnackbar(`Searching for: "${transcript}"`, { variant: "success" });
+        };
+        
+        recognitionRef.current.onerror = (event) => {
+          enqueueSnackbar(`Voice search error: ${event.error}`, { variant: "error" });
+          setIsVoiceSearching(false);
+        };
+        
+        recognitionRef.current.onend = () => {
+          setIsVoiceSearching(false);
+        };
+      } else {
+        enqueueSnackbar("Speech recognition not supported in this browser", { variant: "error" });
+        return;
+      }
+    }
+    
+    recognitionRef.current.start();
+  };
+
   const getRatingColor = (rating) => {
     if (rating >= 4.0) return 'bg-emerald-400';
     if (rating >= 3.5) return 'bg-yellow-300';
@@ -152,7 +203,7 @@ function Doctorsearch() {
   
   return (
    <>
-    <div className="min-h-screen  p-6 ">
+    <div className="min-h-screen p-6 ">
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
@@ -178,6 +229,29 @@ function Doctorsearch() {
                 onChange={handleSearchInput}
                 className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
               />
+              {/* Voice search button */}
+              <button 
+                onClick={startVoiceSearch}
+                className={`absolute inset-y-0 right-2 px-2 flex items-center ${isVoiceSearching ? 'text-red-500' : 'text-gray-500'}`}
+                title="Search by voice"
+              >
+                <svg 
+                  className="h-5 w-5" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" 
+                  />
+                </svg>
+                {isVoiceSearching && (
+                  <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-2 border-red-500 animate-ping opacity-75"></span>
+                )}
+              </button>
             </div>
             <div className="relative">
               <select
@@ -212,9 +286,7 @@ function Doctorsearch() {
                     <div className="flex items-start justify-between">
                       <div>
                         <h2 className="text-xl font-bold text-gray-800">{doctor.name}</h2>
-                        {/* <p className="text-gray-600 text-sm"><span className='font-medium text-gray-700 text-md'>specialties :</span> {doctor.speciality}</p> */}
                       </div>
-                    
                     </div>
                     <div className="mt-4 flex flex-wrap gap-4">
                       <div className="flex items-center text-gray-600">
@@ -229,7 +301,6 @@ function Doctorsearch() {
                         </svg>
                         {doctor.reviews ? doctor.reviews.length : 0} ratings
                       </div>
-                     
                     </div>
                   </div>
                 </div>
@@ -249,11 +320,9 @@ function Doctorsearch() {
                       <div>
                         <h2 className="text-xl font-bold text-gray-800">{hospital.name} <span className='text-sm font-normal'>( {hospital.hospitalType} hospital )</span></h2>
                         <div className="flex gap-2 mt-1">
-                         
                           <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">{hospital.address} Beds</span>
                         </div>
                       </div>
-                    
                     </div>
                     <div className="mt-4">
                       <h3 className="text-sm font-medium text-gray-600 mb-2">Specialties</h3>
@@ -285,6 +354,8 @@ function Doctorsearch() {
         </div>
       </div>
     </div>
+    {/* Global voice control component */}
+    <VoiceControl />
    </>
   );
 }

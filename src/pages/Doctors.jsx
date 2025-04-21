@@ -79,14 +79,14 @@ const Doctors = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 ">
       {/* Header section */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Find Your Doctor</h1>
         <p className="text-gray-600 mt-2">Browse through our network of qualified healthcare professionals</p>
       </div>
       
-      <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg shadow-sm">
+    <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg shadow-sm">
         <div className="flex flex-col sm:flex-row items-center justify-between">
           <div>
             <h2 className="text-xl font-semibold text-gray-800">Need more healthcare options?</h2>

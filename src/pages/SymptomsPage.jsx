@@ -118,7 +118,7 @@ const SymptomsPage = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
+    <div className="max-w-3xl  mx-auto px-4 py-8 md:py-12">
       {/* User Info Card */}
       <div className="bg-white rounded-lg shadow-md p-4 mb-6 flex flex-wrap gap-4 items-center">
         <div className="flex items-center">

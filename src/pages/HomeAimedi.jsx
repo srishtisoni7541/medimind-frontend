@@ -9,7 +9,7 @@ const topSearchedMedications = [
 
 const HomeAimedi = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+    <div className="min-h-scree n bg-gradient-to-br from-blue-50 to-white">
       <div className="container mx-auto px-4 py-12">
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold text-primary mb-2">Drugs & Medications A-Z</h1>

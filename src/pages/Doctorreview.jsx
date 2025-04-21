@@ -329,7 +329,7 @@ function Doctorreview() {
 
   return (
     <>
-      <div className="min-h-screen inset-0 bg-gradient-to-r  bg-white">
+      <div className="min-h-screen  inset-0 bg-gradient-to-r  bg-white">
         <div className="max-w-5xl mx-auto p-6">
           {/* Doctor Profile Header */}
           <motion.div

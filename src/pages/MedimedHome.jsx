@@ -3,7 +3,7 @@ import { Search, MapPin } from 'lucide-react';
 
 const MedimedHome = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-500 via-teal-600 to-[#1B5170] relative overflow-hidden">
+    <div className="min-h-screen  bg-gradient-to-br from-emerald-500 via-teal-600 to-[#1B5170] relative overflow-hidden">
       {/* Background medical icons */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-[20%] left-[10%]">

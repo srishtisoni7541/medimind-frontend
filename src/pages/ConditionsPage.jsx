@@ -85,7 +85,7 @@ const ConditionsPage = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* User Info Card */}
-      <div className="bg-white rounded-xl shadow-md p-4 mb-6 flex flex-wrap gap-4 items-center border-l-4 border-teal-500">
+      <div className="bg-white rounded-xl  shadow-md p-4 mb-6 flex flex-wrap gap-4 items-center border-l-4 border-teal-500">
         <div className="flex items-center">
           <span className="text-sm font-medium text-gray-500 mr-2">Age:</span>
           <span className="text-lg font-semibold text-gray-800">

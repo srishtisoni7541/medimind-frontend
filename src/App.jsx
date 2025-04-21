@@ -27,6 +27,7 @@ import UpdateDocRating from "./pages/Edit/EditdocRating";
 import Header from './components/Header';
 import HealthForm from './components/HealthForm';
 import Dashboard from './components/Dashboard';
+import VoiceControl from './components/VoiceFunc'; // Import VoiceControl component
 
 import { CheckerProvider } from "./context/CheckerContext";
 import NavTabs from "./components/NavTabs";
@@ -251,6 +252,8 @@ const App = () => {
         />
       </Routes>
 
+      {/* Add Voice Control Component */}
+      <VoiceControl />
       <Footer />
     </div>
   );
