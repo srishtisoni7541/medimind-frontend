@@ -143,7 +143,7 @@
         )}
         
         {/* Header with profile summary */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-xl overflow-hidden mb-8">
+        <div className="bg-gradient-to-r from-blue-600 mt-16 to-blue-800 rounded-xl shadow-xl overflow-hidden mb-8">
           <div className="p-6 text-white">
             <h1 className="text-3xl font-bold mb-4">Your Nutrition Dashboard</h1>
             <div className="flex flex-wrap items-center gap-8">

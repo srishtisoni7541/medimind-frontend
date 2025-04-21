@@ -193,7 +193,7 @@ function SavedDoctors() {
                                 />
                             ))
                         ) : (
-                            <div className="bg-white rounded-2xl shadow p-8 text-center">
+                            <div className="bg-white mt-16 rounded-2xl shadow p-8 text-center">
                                 <Heart className="w-16 h-16 text-blue-300 mx-auto mb-4" />
                                 <h3 className="text-xl font-semibold text-gray-800 mb-2">No Saved Doctors</h3>
                                 <p className="text-gray-600 mb-6">You haven't saved any doctors yet. Save doctors to quickly access their profiles later.</p>

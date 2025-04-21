@@ -102,7 +102,7 @@ const HealthForm = ({ setUserData, setMealPlan, handleApiRequest, isLoading: glo
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8 mt-10">
+    <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8 mt-36">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
         Your Personalized Diet Plan
       </h2>

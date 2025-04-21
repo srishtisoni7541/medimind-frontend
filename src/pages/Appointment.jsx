@@ -163,7 +163,7 @@ const Appointment = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6 ">
+    <div className="max-w-6xl mx-auto px-4 py-6 mt-24 ">
       {/* Breadcrumbs */}
       <div className="flex items-center text-sm mb-6 text-gray-500">
         <span className="hover:text-blue-600 cursor-pointer" onClick={() => navigate('/')}>Home</span>
@@ -227,9 +227,9 @@ const Appointment = () => {
                     <span className="text-sm text-gray-500 ml-1">{docInfo.rating || 4.0}</span>
                   </div>
                   <div className="text-lg font-bold text-gray-900">
-                    {currencySymbol}{docInfo.fees} <span className="text-sm font-normal text-gray-500">per consultation</span>
-                  </div>
-                </div>
+  ₹{docInfo.fees.toLocaleString('en-IN')} <span className="text-sm font-normal text-gray-500">per consultation</span>
+</div>
+</div>
               </div>
 
               {docInfo.hospital && (
@@ -348,8 +348,9 @@ const Appointment = () => {
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-600">Fee:</span>
-                    <span className="font-medium">{currencySymbol}{docInfo.fees}</span>
-                  </div>
+                      <span className="font-medium">
+                        ₹{Number(docInfo.fees).toLocaleString('en-IN')}
+                      </span></div>
                 </div>
               )}
 

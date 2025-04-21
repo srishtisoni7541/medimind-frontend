@@ -1,6 +1,6 @@
 const HeaderSym = () => {
     return (
-      <header className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 shadow-lg">
+      <header className="mt-20 bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 shadow-lg">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Logo and Title */}
           <div className="flex flex-col items-center text-center">

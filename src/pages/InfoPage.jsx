@@ -33,12 +33,12 @@ const InfoPage = () => {
   }
 
   return (
-    <div className="flex  flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="flex  flex-col items-center justify-center   p-6 bg-gradient-to-b from-gray-50 to-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800">Personal Information</h2>
 
         <div className="space-y-6">
-          <div className="space-y-2">
+          <div className="">
             <label className="block text-sm font-medium text-gray-700">Age</label>
             <div className="relative">
               <input
@@ -87,11 +87,12 @@ const InfoPage = () => {
             {errors.sex && <div className="mt-1 text-sm text-red-600">{errors.sex}</div>}
           </div>
         </div>
-      </div>
-
-      <div className="w-full max-w-md mt-6">
+        <div className="w-full max-w-md ">
         <ContinueButton onClick={handleContinue} disabled={!localAge || !localSex} />
       </div>
+      </div>
+
+    
     </div>
   )
 }
