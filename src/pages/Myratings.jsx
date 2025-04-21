@@ -332,7 +332,7 @@ function Myratings() {
 
   return user && (
     <>
-    <div className='  md:px-[10vh] '>
+    <div className='  md:px-[10vh] pt-[15vh] '>
       <div className="min-h-screen overflow-hidden  relative  rounded-lg">
         <nav className="bg-white w-full border border-gray-400 shadow-sm   mt-3">
           <div className="max-w-6xl mx-auto px-4">

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
 import Doctors from "./pages/Doctors";
 import Login from "./pages/Login";
 import About from "./pages/About";
@@ -40,6 +39,8 @@ import { useChecker } from "./context/CheckerContext";
 import HeaderSym from "./components/HeaderSym";
 import HomeAimedi from "./pages/HomeAimedi";
 import MedicationDetailPage from "./pages/MedicationDetailPage";
+import PrescriptionsLists from "./pages/PrescriptionLists";
+import PrescriptionDetail from "./pages/PrescriptionDetail";
 
 const SymptomChecker = () => {
   const { currentTab } = useChecker();
@@ -187,7 +188,6 @@ const App = () => {
         />
         <Route path="/medication-search" element={<HomeAimedi />} />
         <Route path="/medication/:name" element={<MedicationDetailPage />} />
-        <Route path="/appointment" element={<Home />} />
         <Route path="/doctors" element={
           <Protectedroute>
             <Doctors/>
@@ -204,7 +204,8 @@ const App = () => {
         <Route path="my-profile/" element={<MyProfile />} />
         <Route path="/my-appointments" element={<MyAppointments />} />
         <Route path="/appointment/:docId" element={<Appointment />} />
-
+        <Route path="/prescriptions" element={<PrescriptionsLists />} />
+        <Route path="/prescriptions/:id" element={<PrescriptionDetail />} />
         <Route
           path="/symptom-checker"
           element={

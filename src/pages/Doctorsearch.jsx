@@ -203,7 +203,7 @@ function Doctorsearch() {
   
   return (
    <>
-    <div className="min-h-screen p-6 ">
+    <div className="min-h-screen pt-[15vh] p-6 ">
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">

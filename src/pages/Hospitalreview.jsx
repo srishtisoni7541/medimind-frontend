@@ -408,7 +408,7 @@ function HospitalReview() {
 
   return (
     <>
-    <div className="min-h-screen  bg-gradient-to-r  bg-white ">
+    <div className="min-h-screen pt-[10vh] bg-gradient-to-r  bg-white ">
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         {/* Hospital Information Card */}
         <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-400">

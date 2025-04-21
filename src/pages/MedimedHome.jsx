@@ -1,118 +1,298 @@
-import React from "react";
-import { Search, MapPin } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { Building2, Search, Stethoscope, MapPin } from 'lucide-react';
+import { useSnackbar } from 'notistack';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchHospitals, clearHosError, clearHospitals } from '../store/actions/hospitalaction'
+import { searchDoctors, clearDoctors } from '../store/actions/doctoraction'
+import { FaStethoscope } from "react-icons/fa";
 
 const MedimedHome = () => {
-  return (
-    <div className="min-h-screen  bg-gradient-to-br from-emerald-500 via-teal-600 to-[#1B5170] relative overflow-hidden">
-      {/* Background medical icons */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-[20%] left-[10%]">
-          <img src="/placeholder.svg" width={50} height={100} alt="" className="opacity-30" />
-        </div>
-        <div className="absolute bottom-[30%] left-[20%]">
-          <img src="/placeholder.svg" width={50} height={50} alt="" className="opacity-30" />
-        </div>
-        <div className="absolute top-[40%] right-[15%]">
-          <img src="/placeholder.svg" width={80} height={80} alt="" className="opacity-30" />
-        </div>
-        <div className="absolute bottom-[20%] right-[10%]">
-          <img src="/placeholder.svg" width={50} height={100} alt="" className="opacity-30" />
-        </div>
-      </div>
+    const { enqueueSnackbar } = useSnackbar();
 
-      {/* Header */}
-      <header className="relative z-10 px-4 py-6 max-w-7xl mx-auto">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="h-10 w-10">
-              <svg viewBox="0 0 40 40" className="h-full w-full">
-                <path d="M0 0 L40 0 L40 30 L20 40 L0 30 Z" fill="#f97316" />
-                <path d="M0 0 L40 0 L40 30 L20 40 Z" fill="#f59e0b" opacity="0.7" />
-              </svg>
-            </div>
-            <h1 className="text-xl font-medium text-gray-800">Medica Help</h1>
-          </div>
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { hospitals, error } = useSelector((state) => state.Hospital);
+    const { doctors } = useSelector((state) => state.Doctor);
+    const doctorError = useSelector((state) => state.Doctor.error);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [results, setResults] = useState([]);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
+    const [showResults, setShowResults] = useState(false);
+    const [showDocResults, setShowDocResults] = useState(false);
+    const [isDoctorSearch, setIsDoctorSearch] = useState(false);
 
-          <nav className="hidden md:flex items-center gap-6">
-            <a href="#" className="text-white hover:text-gray-200 transition">
-              Home
-            </a>
-            <a href="#" className="text-white hover:text-gray-200 transition">
-              Appointment
-            </a>
-            <a href="#" className="text-white hover:text-gray-200 transition">
-              Services
-            </a>
-            <a href="#" className="text-white hover:text-gray-200 transition">
-              Specialist
-            </a>
-            <a href="#" className="text-white hover:text-gray-200 transition">
-              FAQ
-            </a>
-            <a href="#" className="text-white hover:text-gray-200 transition">
-              About us
-            </a>
-          </nav>
+    useEffect(() => {
+        if (searchTerm.trim() === "") {
+            setResults([]);
+            setShowResults(false);
+            setShowDocResults(false);
+            dispatch(clearHospitals());
+            dispatch(clearDoctors());
+            return;
+        }
 
-          <div className="flex items-center gap-3">
-            <button className="px-4 py-1.5 rounded-full border border-white text-white hover:bg-white/10 transition">
-              Sign in
-            </button>
-            <button className="px-4 py-1.5 rounded-full bg-white text-gray-700 hover:bg-gray-100 transition">
-              Register
-            </button>
-          </div>
+        dispatch(clearHospitals());
+        dispatch(clearDoctors());
+
+        if (isDoctorSearch) {
+            dispatch(searchDoctors({ name: searchTerm }));
+        } else {
+            dispatch(searchHospitals({ name: searchTerm }));
+        }
+    }, [searchTerm, isDoctorSearch, dispatch])
+
+    useEffect(() => {
+        if (error) {
+            enqueueSnackbar(error, { variant: "error" });
+            dispatch(clearHosError());
+        } else if (doctorError) {
+            enqueueSnackbar(doctorError, { variant: "error" });
+        }
+    }, [error, doctorError])
+
+    useEffect(() => {
+        if (isDoctorSearch) {
+            if (doctors.length > 0) {
+                setResults(doctors);
+                setShowDocResults(true);
+                setShowResults(false);
+            } else {
+                setResults([]);
+                setShowDocResults(false);
+                setShowResults(false);
+            }
+        } else {
+            if (hospitals && hospitals.length > 0) {
+                setResults(hospitals);
+                setShowResults(true);
+                setShowDocResults(false);
+            } else {
+                setResults([]);
+                setShowResults(false);
+                setShowDocResults(false);
+            }
+        }
+    }, [hospitals, doctors, isDoctorSearch]);
+
+    const handleKeyDown = (e) => {
+        if (!showResults && !showDocResults) {
+            if (e.key === "Enter") {
+                if(isDoctorSearch){
+                    navigate(`/search?doctorName=${searchTerm}`); 
+                }else{
+                    navigate(`/search?hospitalName=${searchTerm}`);
+                }
+            }
+            return;
+        }
+    
+        switch (e.key) {
+            case "ArrowDown":
+                e.preventDefault();
+                setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev));
+                break;
+            case "ArrowUp":
+                e.preventDefault();
+                setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+                break;
+            case "Enter":
+                if (selectedIndex >= 0 && selectedIndex < results.length) {
+                    const selectedItem = results[selectedIndex];
+                    if (selectedItem && selectedItem._id) {
+                        if (isDoctorSearch) {
+                            navigate(`/${selectedItem._id}/doctorreview`);
+                        } else {
+                            navigate(`/${selectedItem._id}/hospitalreview`);
+                        }
+                        setShowResults(false);
+                        setShowDocResults(false);
+                    }
+                } else {
+                    if(isDoctorSearch){
+                        navigate(`/search?doctorName=${searchTerm}`); 
+                    }else{
+                        navigate(`/search?hospitalName=${searchTerm}`);
+                    }
+                }
+                break;
+            case "Escape":
+                setShowResults(false);
+                setShowDocResults(false);
+                break;
+            default:
+                break;
+        }
+    };
+    
+    return (
+        <div className="min-h-screen  bg-gray-50">
+            <section
+                className="relative flex flex-col items-center justify-center h-screen text-center bg-cover bg-center px-4 font-sans"
+                style={
+                    {backgroundImage:"url('https://plus.unsplash.com/premium_photo-1681843126728-04eab730febe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",backgroundSize:"cover",backgroundPosition:"center"}
+                }
+            >
+                {/* Gradient overlay for better text visibility */}
+                <div  className="absolute inset-0 bg-black/25"></div>
+
+                {/* Content */}
+                <div className="z-10 text-white max-w-4xl mx-auto">
+                    {/* Logo and branding */}
+                    <div className="flex items-center justify-center mb-4">
+                        <div className="bg-white p-2 rounded-full">
+                            <FaStethoscope className="text-blue-600 text-3xl" />
+                        </div>
+                        <h1 className="text-5xl font-bold ml-3 tracking-tight">MediMind</h1>
+                    </div>
+                    
+                    <p className="mt-4 text-xl md:text-2xl font-light">
+                        Create your personalized healthcare map with your experiences
+                    </p>
+                    
+                    {/* Search component */}
+                    <div className="w-full max-w-2xl mx-auto mt-10 relative">
+                        <div className="bg-white/10 backdrop-blur-md p-1 rounded-lg border border-white/30 shadow-xl">
+                            {/* Search type toggle */}
+                            <div className="flex mb-4 rounded-md overflow-hidden">
+                                <button 
+                                    onClick={() => setIsDoctorSearch(false)}
+                                    className={`flex-1 py-3 px-4 flex items-center justify-center gap-2 transition-all ${!isDoctorSearch ? 'bg-blue-600 text-white' : 'bg-white/20 text-white hover:bg-white/30'}`}
+                                >
+                                    <Building2 size={18} />
+                                    <span>Find Hospitals</span>
+                                </button>
+                                <button 
+                                    onClick={() => setIsDoctorSearch(true)}
+                                    className={`flex-1 py-3 px-4 flex items-center justify-center gap-2 transition-all ${isDoctorSearch ? 'bg-blue-600 text-white' : 'bg-white/20 text-white hover:bg-white/30'}`}
+                                >
+                                    <Stethoscope size={18} />
+                                    <span>Find Doctors</span>
+                                </button>
+                            </div>
+                            
+                            {/* Search input */}
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder={isDoctorSearch ? "Search by doctor name..." : "Search by hospital name..."}
+                                    className="w-full px-5 py-4 pl-12 bg-white text-gray-800 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-inner"
+                                />
+                                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                                <button 
+                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 transition-colors"
+                                    onClick={() => {
+                                        if(isDoctorSearch){
+                                            navigate(`/search?doctorName=${searchTerm}`); 
+                                        }else{
+                                            navigate(`/search?hospitalName=${searchTerm}`);
+                                        }
+                                    }}
+                                >
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Results for hospitals */}
+                        {showResults && results.length > 0 && (
+                            <div className="absolute w-full mt-2 max-h-80 overflow-y-auto z-20">
+                                <div className="bg-white rounded-lg shadow-xl border border-gray-200">
+                                    {results.slice(0, 5).map((result, index) => (
+                                        <Link to={`/${result._id}/hospitalreview`}
+                                            key={result._id}
+                                            className={`block cursor-pointer py-4 px-5 border-b border-gray-100 ${
+                                                index === selectedIndex
+                                                ? 'bg-blue-50 border-l-4 border-l-blue-500'
+                                                : 'hover:bg-blue-50'
+                                            }`}
+                                            onClick={() => {
+                                                setSearchTerm(result.name);
+                                                setShowResults(false);
+                                            }}
+                                        >
+                                            <div className="flex items-center">
+                                                <div className="bg-blue-100 p-2 rounded-full">
+                                                    <Building2 className="text-blue-600" size={20} />
+                                                </div>
+                                                <div className="ml-3">
+                                                    <p className="font-semibold text-gray-800">{result.name}</p>
+                                                    <div className="flex items-center text-sm text-gray-500 mt-1">
+                                                        <MapPin size={14} className="mr-1" />
+                                                        <span>{result.address}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Results for doctors */}
+                        {showDocResults && results.length > 0 && (
+                            <div className="absolute w-full mt-2 max-h-80 overflow-y-auto z-20">
+                                <div className="bg-white rounded-lg shadow-xl border border-gray-200">
+                                    {results.slice(0, 5).map((result, index) => (
+                                        <Link to={`/${result._id}/doctorreview`}
+                                            key={result._id}
+                                            className={`block cursor-pointer py-4 px-5 border-b border-gray-100 ${
+                                                index === selectedIndex
+                                                ? 'bg-blue-50 border-l-4 border-l-blue-500'
+                                                : 'hover:bg-blue-50'
+                                            }`}
+                                            onClick={() => {
+                                                setSearchTerm(result.name);
+                                                setShowDocResults(false);
+                                            }}
+                                        >
+                                            <div className="flex items-center">
+                                                <div className="bg-blue-100 p-2 rounded-full">
+                                                    <Stethoscope className="text-blue-600" size={20} />
+                                                </div>
+                                                <div className="ml-3">
+                                                    <p className="font-semibold text-gray-800">{result.name}</p>
+                                                    <div className="flex items-center text-sm text-gray-500 mt-1">
+                                                        <Building2 size={14} className="mr-1" />
+                                                        <span>{result.hospital.name}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* No results message */}
+                        {(showResults || showDocResults) && results.length === 0 && (
+                            <div className="absolute w-full mt-2 z-20">
+                                <div className="bg-white rounded-lg shadow-xl border border-gray-200">
+                                    <div className="px-5 py-4 text-gray-500 flex items-center justify-center">
+                                        <Search className="mr-2 text-gray-400" size={18} />
+                                        No results found for "{searchTerm}"
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Tagline */}
+                    <p className="mt-10 font-light text-white/90">
+                        MediMind - Your trusted healthcare companion
+                    </p>
+                </div>
+
+                {/* Footer */}
+                <div className="absolute bottom-4 z-10 text-white/70 text-sm">
+                    © 2025 MediMind. All rights reserved.
+                </div>
+            </section>
         </div>
-      </header>
+    )
+}
 
-      {/* Main Content */}
-      <main className="relative z-10 px-4 pt-16 pb-24 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-medium text-white mb-4">Need To Quickly Consult With</h2>
-          <div className="flex justify-center items-center gap-3">
-            <h2 className="text-4xl md:text-5xl font-medium text-white">Doctor?</h2>
-            <div className="relative">
-              <svg width="100" height="80" viewBox="0 0 100 80" className="text-white">
-                <path d="M20,40 Q30,10 50,30 T80,20" fill="none" stroke="currentColor" strokeWidth="3" />
-                <circle cx="80" cy="20" r="5" fill="white" />
-              </svg>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <svg width="50" height="50" viewBox="0 0 50 50" className="text-white">
-                  <circle cx="25" cy="15" r="15" fill="currentColor" />
-                  <rect x="20" y="15" width="10" height="25" rx="5" fill="currentColor" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Search Bar */}
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-full p-2 flex items-center shadow-lg">
-            <div className="flex items-center flex-1 px-3 border-r border-gray-300">
-              <Search className="h-5 w-5 text-gray-400 mr-2" />
-              <input
-                type="text"
-                placeholder="Search Specialist or Hospital"
-                className="w-full outline-none text-gray-700"
-              />
-            </div>
-            <div className="flex items-center px-3 border-r border-gray-300">
-              <MapPin className="h-5 w-5 text-gray-400 mr-2" />
-              <select className="appearance-none bg-transparent outline-none text-gray-700 pr-8">
-                <option>Near you or Enter City</option>
-              </select>
-            </div>
-            <div className="px-2">
-              <button className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full transition">
-                Find
-              </button>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-};
-
-export default MedimedHome;
+export default MedimedHome

@@ -210,7 +210,7 @@ function RateDoctor() {
   }, [error, message]);
   return doctor && (
    <>
-    <div className="min-h-screen  bg-gradient-to-r   bg-white py-8 px-4">
+    <div className="min-h-screen pt-[15vh]  bg-gradient-to-r   bg-white py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Rate Your Doctor</h1>

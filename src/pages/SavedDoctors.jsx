@@ -180,7 +180,7 @@ function SavedDoctors() {
        
                 
         <div className=''>
-            <div className="min-h-screen  ">
+            <div className="min-h-screen pt-[10vh] ">
 
                 <main className="max-w-6xl mx-auto px-4 py-8">
                     <div className="space-y-6">
