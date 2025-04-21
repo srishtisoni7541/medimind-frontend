@@ -32,6 +32,8 @@ const AppContextProvider = (props) => {
       const loadUserProfileData = async (req, res) => {
             try {
                   const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { utoken: token } })
+                  console.log(data,"userr");
+                  
                   if (data.success) {
                         setUserData(data.userData)
                   } else {

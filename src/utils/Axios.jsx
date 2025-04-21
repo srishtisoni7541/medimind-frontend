@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const baseURL = window.location.hostname === 'localhost'
   ? 'http://localhost:5000'
-  : 'https://rate-my-doctor.onrender.com/';
+  : 'https://medimind-back-1.onrender.com';
 const Instance = axios.create({
     baseURL,
     withCredentials: true,
