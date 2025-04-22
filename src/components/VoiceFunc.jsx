@@ -22,7 +22,7 @@ const VoiceFunc = () => {
     "search hospital": "/search?hospitalName=",
     "my ratings": "/myratings",
     "saved doctors": "/saved-doctors",
-    "appointment": "/appointment",
+    "appointment": "/my-appointment",
     "doctors": "/doctors",
     "login": "/login",
     "about": "/about",
