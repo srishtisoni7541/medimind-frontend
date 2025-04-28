@@ -7,7 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const { token, setToken, userData } = useContext(AppContext);
-console.log(userData,token);
+  console.log(userData, token);
 
   const logout = () => {
     setToken(false);
@@ -120,6 +120,16 @@ console.log(userData,token);
           >
             <li className="py-1">Contact</li>
           </NavLink>
+          <NavLink
+            to="/donor-register"
+            className={({ isActive }) =>
+              isActive
+                ? "text-primary font-semibold border-b-2 border-primary"
+                : "hover:text-primary transition-colors"
+            }
+          >
+            <li className="py-1">Donate organs</li>
+          </NavLink>
         </ul>
 
         {/* User Profile/Login Section */}
@@ -218,6 +228,21 @@ console.log(userData,token);
                     </svg>
                     My Ratings
                   </NavLink>
+                  <NavLink
+                    to="/donor-dashboard"
+                    className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center gap-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-500"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 2.91 2.09 5.39 5 5.91V17h-2v2h2v2h2v-2h2v-2h-2v-2.09c2.91-.52 5-3 5-5.91 0-3.87-3.13-7-7-7z" />
+                    </svg>
+                    Organ Donation Dashboard
+                  </NavLink>
+
                   <NavLink
                     to="/prescriptions"
                     className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center gap-2"

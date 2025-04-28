@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Doctors from "./pages/Doctors";
 import Login from "./pages/Login";
 import About from "./pages/About";
@@ -23,10 +28,10 @@ import SavedDoctors from "./pages/SavedDoctors";
 import Myratings from "./pages/Myratings";
 import UpdateHosRating from "./pages/Edit/EdithosRating";
 import UpdateDocRating from "./pages/Edit/EditdocRating";
-import Header from './components/Header';
-import HealthForm from './components/HealthForm';
-import Dashboard from './components/Dashboard';
-import VoiceControl from './components/VoiceFunc'; // Import VoiceControl component
+import Header from "./components/Header";
+import HealthForm from "./components/HealthForm";
+import Dashboard from "./components/Dashboard";
+import VoiceControl from "./components/VoiceFunc"; // Import VoiceControl component
 
 import { CheckerProvider } from "./context/CheckerContext";
 import NavTabs from "./components/NavTabs";
@@ -41,6 +46,11 @@ import HomeAimedi from "./pages/HomeAimedi";
 import MedicationDetailPage from "./pages/MedicationDetailPage";
 import PrescriptionsLists from "./pages/PrescriptionLists";
 import PrescriptionDetail from "./pages/PrescriptionDetail";
+import DonorRegistration from "./pages/DonorRegistration";
+import DonorDashboard from "./pages/DonorDashboard";
+import DonorProfileEdit from "./pages/DonorProfileEdit";
+import DonationRequests from "./pages/DonationRequests";
+import DonationRequestDetails from "./pages/DonationRequestDetails";
 
 const SymptomChecker = () => {
   const { currentTab } = useChecker();
@@ -76,7 +86,7 @@ const App = () => {
   const [mealPlan, setMealPlan] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   // Function to handle API loading states globally
   const handleApiRequest = async (apiCall) => {
     setIsLoading(true);
@@ -86,17 +96,17 @@ const App = () => {
       setIsLoading(false);
       return result;
     } catch (err) {
-      setError(err.message || 'An error occurred with the API request');
+      setError(err.message || "An error occurred with the API request");
       setIsLoading(false);
       throw err;
     }
   };
-  
+
   return (
     <div className="mx-4 sm:mx-[10%]">
       <ToastContainer />
       <Navbar />
-      
+
       {error && (
         <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-auto my-4 max-w-4xl">
           <p className="font-bold">Error</p>
@@ -188,17 +198,31 @@ const App = () => {
         />
         <Route path="/medication-search" element={<HomeAimedi />} />
         <Route path="/medication/:name" element={<MedicationDetailPage />} />
-        <Route path="/doctors" element={
-          <Protectedroute>
-            <Doctors/>
-          </Protectedroute>
-        } />
-        <Route path="/doctors/:speciality" element={
-          <Protectedroute>
-            <Doctors/>
-          </Protectedroute>
-        } />
+        <Route
+          path="/doctors"
+          element={
+            <Protectedroute>
+              <Doctors />
+            </Protectedroute>
+          }
+        />
+        <Route
+          path="/doctors/:speciality"
+          element={
+            <Protectedroute>
+              <Doctors />
+            </Protectedroute>
+          }
+        />
         <Route path="/login" element={<Login />} />
+        <Route path="/donor-register" element={<DonorRegistration />} />
+        <Route path="/donor-dashboard" element={<DonorDashboard />} />
+        <Route path="/donor-profile-edit" element={<DonorProfileEdit />} />
+        <Route path="/donation-requests" element={<DonationRequests />} />
+        <Route
+          path="/donation-request/:requestId/:hospitalId"
+          element={<DonationRequestDetails />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="my-profile/" element={<MyProfile />} />
@@ -214,32 +238,32 @@ const App = () => {
             </CheckerProvider>
           }
         />
-        
+
         {/* New health plan routes */}
-        <Route 
-          path="/health-plan" 
+        <Route
+          path="/health-plan"
           element={
             userData ? (
               <Navigate to="/health-dashboard" />
             ) : (
               <div className="container mx-auto px-4 py-8">
-                <HealthForm 
-                  setUserData={setUserData} 
-                  setMealPlan={setMealPlan} 
+                <HealthForm
+                  setUserData={setUserData}
+                  setMealPlan={setMealPlan}
                   handleApiRequest={handleApiRequest}
                   isLoading={isLoading}
                 />
               </div>
             )
-          } 
+          }
         />
-        <Route 
-          path="/health-dashboard" 
+        <Route
+          path="/health-dashboard"
           element={
             userData ? (
               <div className="container mx-auto px-4 py-8">
-                <Dashboard 
-                  userData={userData} 
+                <Dashboard
+                  userData={userData}
                   mealPlan={mealPlan}
                   setMealPlan={setMealPlan}
                   handleApiRequest={handleApiRequest}
@@ -249,7 +273,7 @@ const App = () => {
             ) : (
               <Navigate to="/health-plan" />
             )
-          } 
+          }
         />
       </Routes>
 
