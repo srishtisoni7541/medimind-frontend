@@ -242,6 +242,20 @@ const Navbar = () => {
                     </svg>
                     Organ Donation Dashboard
                   </NavLink>
+                  <NavLink
+                    to="/dashboard-mood"
+                    className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center gap-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-500"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>
+                    Mental Health Tracker
+                  </NavLink>
 
                   <NavLink
                     to="/prescriptions"

@@ -51,7 +51,12 @@ import DonorDashboard from "./pages/DonorDashboard";
 import DonorProfileEdit from "./pages/DonorProfileEdit";
 import DonationRequests from "./pages/DonationRequests";
 import DonationRequestDetails from "./pages/DonationRequestDetails";
-
+import DashboardMood from './pages/DashboardMood';
+import Journal from './pages/Journal';
+import JournalEntry from './pages/JournalEntry';
+import MoodTrends from './pages/MoodTrends';
+import Insights from './pages/Insights';
+import TherapyPlans from './pages/TherapyPlans';
 const SymptomChecker = () => {
   const { currentTab } = useChecker();
 
@@ -230,6 +235,49 @@ const App = () => {
         <Route path="/appointment/:docId" element={<Appointment />} />
         <Route path="/prescriptions" element={<PrescriptionsLists />} />
         <Route path="/prescriptions/:id" element={<PrescriptionDetail />} />
+        {/* moodtracker */}
+        <Route
+          path="/dashboard-mood"
+          element={
+              <DashboardMood />
+          }
+        />
+        <Route
+          path="/journal"
+          element={
+              <Journal />
+          }
+        />
+        <Route
+          path="/journal/new"
+          element={
+              <JournalEntry />
+          }
+        />
+        <Route
+          path="/journal/:id"
+          element={
+              <JournalEntry />
+          }
+        />
+        <Route
+          path="/mood-trends"
+          element={
+              <MoodTrends />
+          }
+        />
+        <Route
+          path="/insights"
+          element={
+              <Insights />
+          }
+        />
+        <Route
+          path="/therapy-plans"
+          element={
+              <TherapyPlans />
+          }
+        />
         <Route
           path="/symptom-checker"
           element={
