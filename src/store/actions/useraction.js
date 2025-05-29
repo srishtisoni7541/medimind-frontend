@@ -193,11 +193,13 @@ export const savedDoctorProfile = (id) => async (dispatch) => {
       dispatch(isUserFail("Please login to continue"));
       return;
     }
+    console.log("working fine");
     const { data } = await axios.get(`/api/user/save/${id}`, {
       headers: {
         utoken:token
       }
     });
+    console.log(data,"saveddata");
     
     if (data?.success) {
         dispatch(setUserMessage(data?.SuccessResponse?.message));

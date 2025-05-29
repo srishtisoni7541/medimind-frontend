@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed left-0 top-0 bg-white  w-full z-50 shadow-lg border-b-2  px-4 sm:px-[10%]">
+    <div className="fixed left-0 top-0 bg-white  w-full z-50 shadow-md border-b-2  px-4 sm:px-[10%]">
       <div className="flex items-center justify-between py-4 text-sm">
         <div className="flex items-center">
           {/* MediMind Logo */}
@@ -90,16 +90,7 @@ const Navbar = () => {
           >
             <li className="py-1">Pill Identifier</li>
           </NavLink>
-          <NavLink
-            to="/blogs"
-            className={({ isActive }) =>
-              isActive
-                ? "text-primary font-semibold border-b-2 border-primary"
-                : "hover:text-primary transition-colors"
-            }
-          >
-            <li className="py-1">Blogs</li>
-          </NavLink>
+          
           <NavLink
             to="/about"
             className={({ isActive }) =>
@@ -120,6 +111,7 @@ const Navbar = () => {
           >
             <li className="py-1">Contact</li>
           </NavLink>
+          
           <NavLink
             to="/donor-register"
             className={({ isActive }) =>
@@ -441,17 +433,7 @@ const Navbar = () => {
                 >
                   Pill Identifier
                 </NavLink>
-                <NavLink
-                  onClick={() => setShowMenu(false)}
-                  to="/blogs"
-                  className={({ isActive }) =>
-                    `px-4 py-3 rounded-md ${
-                      isActive ? "bg-primary/10 text-primary font-medium" : ""
-                    }`
-                  }
-                >
-                  Blogs
-                </NavLink>
+            
                 <NavLink
                   onClick={() => setShowMenu(false)}
                   to="/about"

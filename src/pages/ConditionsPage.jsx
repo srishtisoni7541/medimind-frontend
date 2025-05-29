@@ -138,8 +138,8 @@ const ConditionsPage = () => {
                   ${
                     selectedCondition?.id === condition.id ||
                     selectedCondition?.name === condition.name
-                      ? "bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg border-2 border-teal-400 transform scale-[1.02]"
-                      : "bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-teal-200"
+                      ? "bg-gradient-to-br from-teal-50 to-emerald-50 shadow-lg border-2 border-red-400 transform scale-[1.02]"
+                      : "bg-white shadow-md hover:shadow-lg border border-green-600 hover:border-green-200"
                   }
                 `}
                 onClick={() => handleConditionSelect(condition)}

@@ -13,6 +13,89 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [googleAuthLoaded, setGoogleAuthLoaded] = useState(false)
+
+  // Initialize Google OAuth
+  useEffect(() => {
+    // Load the Google API script
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    script.async = true
+    script.defer = true
+    script.onload = initializeGoogleAuth
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
+
+  const initializeGoogleAuth = () => {
+    if (!window.google?.accounts) return;
+    
+    const clientId = '862279115366-q1f226phjifaqibkcom9re648j5q00n8.apps.googleusercontent.com';
+    
+    // Make sure we're using exactly the same client ID as the backend
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleGoogleSignIn,
+      cancel_on_tap_outside: true,
+    });
+    
+    window.google.accounts.id.renderButton(
+      document.getElementById('google-signin-button'),
+      { 
+        theme: 'outline', 
+        size: 'large',
+        width: '100%',
+        text: state === 'Sign Up' ? 'signup_with' : 'signin_with'
+      }
+    );
+    
+    setGoogleAuthLoaded(true);
+  }
+  
+  // Update the handleGoogleSignIn function:
+  
+  const handleGoogleSignIn = async (response) => {
+    setIsLoading(true);
+    try {
+      // Send the ID token to your backend with lowercase mode value
+      const { data } = await axios.post(backendUrl + '/api/user/google-auth', { 
+        idToken: response.credential,
+        mode: state.toLowerCase().replace(' ', '') // Normalize to 'signup' or 'login'
+      });
+      
+      if (data.success) {
+        localStorage.setItem('utoken', data.token);
+        setToken(data.token);
+        toast.success(state === 'Sign Up' ? 'Account created successfully!' : 'Login successful');
+        navigate('/');
+      } else {
+        toast.error(data.message || 'Authentication failed');
+      }
+    } catch (error) {
+      console.error('Google auth error:', error);
+      toast.error(error.response?.data?.message || 'Error authenticating with Google');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // Re-render Google button when state changes between Login/Signup
+  useEffect(() => {
+    if (googleAuthLoaded && window.google?.accounts) {
+      window.google.accounts.id.renderButton(
+        document.getElementById('google-signin-button'),
+        { 
+          theme: 'outline', 
+          size: 'large',
+          width: '100%',
+          text: state === 'Sign Up' ? 'signup_with' : 'signin_with'
+        }
+      )
+    }
+  }, [state, googleAuthLoaded])
 
   const onSubmitHandler = async (event) => {
     event.preventDefault()
@@ -91,6 +174,25 @@ const Login = () => {
             >
               Login
             </button>
+          </div>
+
+          {/* Google Sign-in button */}
+          <div className="mb-6">
+            <div id="google-signin-button" className="w-full"></div>
+            {!googleAuthLoaded && (
+              <div className="w-full py-2 flex justify-center">
+                <Loader2 className="animate-spin h-5 w-5 text-gray-400" />
+              </div>
+            )}
+          </div>
+
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">or continue with email</span>
+            </div>
           </div>
 
           <form className="space-y-6" onSubmit={onSubmitHandler}>
@@ -192,41 +294,30 @@ const Login = () => {
             </div>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">or</span>
-              </div>
-            </div>
-
-            <div className="mt-6 text-center text-sm">
-              {state === 'Sign Up' ? (
-                <p>
-                  Already have an account?{' '}
-                  <button
-                    type="button"
-                    onClick={() => setState('Login')}
-                    className="font-medium text-primary hover:text-primary-dark focus:outline-none"
-                  >
-                    Sign in here
-                  </button>
-                </p>
-              ) : (
-                <p>
-                  Don't have an account?{' '}
-                  <button
-                    type="button"
-                    onClick={() => setState('Sign Up')}
-                    className="font-medium text-primary hover:text-primary-dark focus:outline-none"
-                  >
-                    Create an account
-                  </button>
-                </p>
-              )}
-            </div>
+          <div className="mt-6 text-center text-sm">
+            {state === 'Sign Up' ? (
+              <p>
+                Already have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => setState('Login')}
+                  className="font-medium text-primary hover:text-primary-dark focus:outline-none"
+                >
+                  Sign in here
+                </button>
+              </p>
+            ) : (
+              <p>
+                Don't have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => setState('Sign Up')}
+                  className="font-medium text-primary hover:text-primary-dark focus:outline-none"
+                >
+                  Create an account
+                </button>
+              </p>
+            )}
           </div>
         </div>
       </div>
