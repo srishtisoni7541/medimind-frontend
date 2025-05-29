@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = ' https://medimind-backend.onrender.com/api';
 
 const HealthForm = ({ setUserData, setMealPlan, handleApiRequest, isLoading: globalLoading }) => {
   const [formData, setFormData] = useState({

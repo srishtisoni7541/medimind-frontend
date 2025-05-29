@@ -32,8 +32,7 @@
 
 import axios from 'axios';
 
-const baseURL = 'https://medimind-backend.onrender.com'; // 👈 hardcoded production URL
-
+const baseURL = 'https://medimind-backend.onrender.com'; 
 const Instance = axios.create({
   baseURL,
   withCredentials: true,
